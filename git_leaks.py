@@ -3,6 +3,8 @@
 # Importo las librerias necesarias para llevar a cabo la ejecución del programa
 from git import Repo
 import signal, sys, re
+import pandas as pd
+from IPython.display import display
 
 # Defino la función que va a gestionar el control c
 def handler_signal(signal, frame): 
@@ -36,10 +38,9 @@ def transform(mensajes): # Defino la función que transforma y filtra los datos
                 # El atributo message indica el mensaje del commit
     return informacion_relevante # Devuelvo la información importante
 
-def load(informacion_relevante): # Defino al función que carga los datos
-    for clave in informacion_relevante: # Para cada clave de la información guardada
-        # Imprimo por pantalla en que commit existe información relevante y la clave con la que acceder a dicha información
-        print(f'Commit: {informacion_relevante[clave][:-1]} con clave: {clave}')
+def load(informacion_relevante): # Defino al función que carga los datos creando un dataframe para imprimir la infromación de manera ordenada
+    datos_encontrados = pd.DataFrame([[informacion_relevante[clave][:-1], clave] for clave in informacion_relevante.keys()], columns=['Commits', 'Clave'])
+    display(datos_encontrados)
 
 if __name__ == "__main__":
     # Como estamos utilizando una estructura ETL defino las tres funciones
